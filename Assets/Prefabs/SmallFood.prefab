@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84611161781035055}
   - component: {fileID: 1789484475120141046}
+  - component: {fileID: 7533021608497310344}
   m_Layer: 0
   m_Name: SmallFood
   m_TagString: Untagged
@@ -87,3 +88,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7533021608497310344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4308915329422385274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4ddf4af09162645ba7af6be931fdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
