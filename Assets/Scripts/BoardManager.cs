@@ -17,11 +17,9 @@ public class BoardManager : MonoBehaviour
     public int Height;
     public Tile[] GroundTiles;
     public Tile[] BlockingTiles;
-    
-    public PlayerController Player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Init()
     {
         m_Tilemap = GetComponentInChildren<Tilemap>();
         m_Grid = GetComponentInChildren<Grid>();
@@ -49,8 +47,6 @@ public class BoardManager : MonoBehaviour
                 m_Tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
-
-        Player.Spawn(this, new Vector2Int(1, 1));
     }
     
     public Vector3 CellToWorld(Vector2Int cellIndex)
