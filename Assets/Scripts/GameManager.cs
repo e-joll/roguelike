@@ -11,10 +11,11 @@ public class GameManager : MonoBehaviour
     public TurnManager TurnManager { get; private set;}
     
     public UIDocument UIDoc;
+    private VisualElement m_GameOverPanel;
     private Label m_FoodLabel;
     private Label m_LevelLabel;
     
-    private int m_FoodAmount = 100;
+    private int m_FoodAmount = 10;
     
     private int m_CurrentLevel = 0;
 
@@ -40,6 +41,9 @@ public class GameManager : MonoBehaviour
         m_LevelLabel = UIDoc.rootVisualElement.Q<Label>("LevelLabel");
         m_LevelLabel.text = "Level : " + m_CurrentLevel;
         
+        m_GameOverPanel = UIDoc.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        m_GameOverPanel.style.visibility = Visibility.Hidden;
+        
         NewLevel();
     }
     
@@ -52,6 +56,12 @@ public class GameManager : MonoBehaviour
     {
         m_FoodAmount += amount;
         m_FoodLabel.text = "Food : " + m_FoodAmount;
+        
+        if (m_FoodAmount <= 0)
+        {
+            PlayerController.GameOver();
+            m_GameOverPanel.style.visibility = Visibility.Visible;
+        }
     }
     
     public void NewLevel()

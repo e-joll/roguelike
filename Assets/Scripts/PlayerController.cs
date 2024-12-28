@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private BoardManager m_Board;
     private Vector2Int m_CellPosition;
+    
+    private bool m_IsGameOver;
 
     public void Spawn(BoardManager boardManager, Vector2Int cell)
     {
@@ -22,6 +24,11 @@ public class PlayerController : MonoBehaviour
   
     private void Update()
     {
+        if (m_IsGameOver)
+        {
+            return;
+        }
+        
         Vector2Int newCellTarget = m_CellPosition;
         bool hasMoved = false;
 
@@ -66,7 +73,11 @@ public class PlayerController : MonoBehaviour
                     cellData.ContainedObject.PlayerEntered();
                 }
             }
-
         }
+    }
+    
+    public void GameOver()
+    {
+        m_IsGameOver = true;
     }
 }
