@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoardManager: {fileID: 416093860}
   PlayerController: {fileID: 798043393}
+  UIDoc: {fileID: 699031264}
 --- !u!4 &401513801
 Transform:
   m_ObjectHideFlags: 0
@@ -331,6 +332,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 813a3dda1fa31fb4a8ad60726acfe7cc, type: 2}
   BlockingTiles:
   - {fileID: 11400000, guid: eb80004e57dfafb408b6803899ad9aeb, type: 2}
+  FoodPrefab:
+  - {fileID: 7533021608497310344, guid: f2b937d80364d78469475dc76747d690, type: 3}
+  - {fileID: 5558167845544310740, guid: 87b82e683b73caa45b34c1a017e20944, type: 3}
+  minFoodCount: 1
+  maxFoodCount: 5
+  WallPrefab: {fileID: 0}
 --- !u!156049354 &416093861
 Grid:
   m_ObjectHideFlags: 0
