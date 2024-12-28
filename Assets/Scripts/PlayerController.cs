@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,11 +22,15 @@ public class PlayerController : MonoBehaviour
         transform.position = m_Board.CellToWorld(m_CellPosition);
     }
 
-  
     private void Update()
     {
         if (m_IsGameOver)
         {
+            if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame)
+            {
+                GameManager gameManager = GameManager.Instance;
+                gameManager.StartNewGame();
+            }
             return;
         }
         
@@ -79,5 +84,10 @@ public class PlayerController : MonoBehaviour
     public void GameOver()
     {
         m_IsGameOver = true;
+    }
+    
+    public void ResetGame()
+    {
+        m_IsGameOver = false;
     }
 }

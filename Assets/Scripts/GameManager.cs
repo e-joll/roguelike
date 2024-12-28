@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
     private Label m_FoodLabel;
     private Label m_LevelLabel;
     
-    private int m_FoodAmount = 10;
+    private int m_FoodAmount;
     
-    private int m_CurrentLevel = 0;
+    private int m_CurrentLevel;
 
     private void Awake()
     {
@@ -34,17 +34,12 @@ public class GameManager : MonoBehaviour
     {
         TurnManager = new TurnManager();
         TurnManager.OnTick += OnTurnHappen;
-      
+        
         m_FoodLabel = UIDoc.rootVisualElement.Q<Label>("FoodLabel");
-        m_FoodLabel.text = "Food : " + m_FoodAmount;
-        
         m_LevelLabel = UIDoc.rootVisualElement.Q<Label>("LevelLabel");
-        m_LevelLabel.text = "Level : " + m_CurrentLevel;
-        
         m_GameOverPanel = UIDoc.rootVisualElement.Q<VisualElement>("GameOverPanel");
-        m_GameOverPanel.style.visibility = Visibility.Hidden;
-        
-        NewLevel();
+
+        StartNewGame();
     }
     
     void OnTurnHappen()
@@ -73,5 +68,20 @@ public class GameManager : MonoBehaviour
         m_CurrentLevel++;
         
         m_LevelLabel.text = "Level : " + m_CurrentLevel;
+    }
+
+    public void StartNewGame()
+    {
+        m_FoodAmount = 15;
+        m_CurrentLevel = 0;
+        
+        m_FoodLabel.text = "Food : " + m_FoodAmount;
+        m_LevelLabel.text = "Level : " + m_CurrentLevel;
+
+        m_GameOverPanel.style.visibility = Visibility.Hidden;
+        
+        NewLevel();
+        
+        PlayerController.ResetGame();
     }
 }
