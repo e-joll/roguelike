@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,16 +51,22 @@ public class PlayerController : MonoBehaviour
             //check if the new position is passable, then move there if it is.
             BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
 
-            if (cellData != null && cellData.Passable)
+            if(cellData != null && cellData.Passable)
             {
                 GameManager.Instance.TurnManager.Tick();
-                MoveTo(newCellTarget);
 
-                if (cellData.ContainedObject != null)
+                if (cellData.ContainedObject.IsUnityNull())
                 {
+                    MoveTo(newCellTarget);
+                }
+                else if(cellData.ContainedObject.PlayerWantsToEnter())
+                {
+                    MoveTo(newCellTarget);
+                    //Call PlayerEntered AFTER moving the player! Otherwise not in cell yet
                     cellData.ContainedObject.PlayerEntered();
                 }
             }
+
         }
     }
 }
