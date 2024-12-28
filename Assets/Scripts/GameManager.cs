@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
 
         m_GameOverPanel.style.visibility = Visibility.Hidden;
         
-        NewLevel();
+        PlayerController.Init();
         
-        PlayerController.ResetGame();
+        NewLevel();
     }
 }

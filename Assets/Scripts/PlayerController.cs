@@ -9,17 +9,41 @@ public class PlayerController : MonoBehaviour
     private Vector2Int m_CellPosition;
     
     private bool m_IsGameOver;
+    
+    public float MoveSpeed = 5.0f;
+
+    private bool m_IsMoving;
+    private Vector3 m_MoveTarget;
 
     public void Spawn(BoardManager boardManager, Vector2Int cell)
     {
         m_Board = boardManager;
-        MoveTo(cell);
+        MoveTo(cell, true);
     }
   
-    public void MoveTo(Vector2Int cell)
+    public void MoveTo(Vector2Int cell, bool immediate = false)
     {
+        //technically the player is not there yet, but the movement is only cosmetic
+        //and we know nothing can stop it as we checked everything before starting it
+        //so safe to update there!
         m_CellPosition = cell;
-        transform.position = m_Board.CellToWorld(m_CellPosition);
+
+        if (immediate)
+        {
+            m_IsMoving = false;
+            transform.position = m_Board.CellToWorld(m_CellPosition);
+        }
+        else
+        {
+            m_IsMoving = true;
+            m_MoveTarget = m_Board.CellToWorld(m_CellPosition);
+        }
+    }
+    
+    public void Init()
+    {
+        m_IsMoving = false;
+        m_IsGameOver = false;
     }
 
     private void Update()
@@ -28,9 +52,23 @@ public class PlayerController : MonoBehaviour
         {
             if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame)
             {
-                GameManager gameManager = GameManager.Instance;
-                gameManager.StartNewGame();
+                GameManager.Instance.StartNewGame();
             }
+            return;
+        }
+        
+        if (m_IsMoving)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, m_MoveTarget, MoveSpeed * Time.deltaTime);
+  
+            if (transform.position == m_MoveTarget)
+            {
+                m_IsMoving = false;
+                var cellData = m_Board.GetCellData(m_CellPosition);
+                if(cellData.ContainedObject != null)
+                    cellData.ContainedObject.PlayerEntered();
+            }
+
             return;
         }
         
@@ -63,19 +101,13 @@ public class PlayerController : MonoBehaviour
             //check if the new position is passable, then move there if it is.
             BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
 
-            if(cellData != null && cellData.Passable)
+            if(!cellData.IsUnityNull() && cellData.Passable)
             {
                 GameManager.Instance.TurnManager.Tick();
 
-                if (cellData.ContainedObject.IsUnityNull())
+                if (cellData.ContainedObject.IsUnityNull() || cellData.ContainedObject.PlayerWantsToEnter())
                 {
                     MoveTo(newCellTarget);
-                }
-                else if(cellData.ContainedObject.PlayerWantsToEnter())
-                {
-                    MoveTo(newCellTarget);
-                    //Call PlayerEntered AFTER moving the player! Otherwise not in cell yet
-                    cellData.ContainedObject.PlayerEntered();
                 }
             }
         }
@@ -84,10 +116,5 @@ public class PlayerController : MonoBehaviour
     public void GameOver()
     {
         m_IsGameOver = true;
-    }
-    
-    public void ResetGame()
-    {
-        m_IsGameOver = false;
     }
 }
