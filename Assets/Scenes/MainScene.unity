@@ -337,7 +337,8 @@ MonoBehaviour:
   - {fileID: 5558167845544310740, guid: 87b82e683b73caa45b34c1a017e20944, type: 3}
   minFoodCount: 1
   maxFoodCount: 5
-  WallPrefab: {fileID: 0}
+  WallPrefab: {fileID: 5991562607052755462, guid: 7e3f9605d284886428b3036d368df22a, type: 3}
+  ExitCellPrefab: {fileID: 6681004708933989430, guid: d953d056be4cb604782e4598cd0fff15, type: 3}
 --- !u!156049354 &416093861
 Grid:
   m_ObjectHideFlags: 0
