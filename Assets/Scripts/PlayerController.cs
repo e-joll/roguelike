@@ -15,6 +15,14 @@ public class PlayerController : MonoBehaviour
     private bool m_IsMoving;
     private Vector3 m_MoveTarget;
 
+    private Animator m_Animator;
+    private static readonly int EatingHash = Animator.StringToHash("Eating");
+
+    private void Awake()
+    {
+        m_Animator = GetComponent<Animator>();
+    }
+    
     public void Spawn(BoardManager boardManager, Vector2Int cell)
     {
         m_Board = boardManager;
@@ -68,6 +76,8 @@ public class PlayerController : MonoBehaviour
                 if(cellData.ContainedObject != null)
                     cellData.ContainedObject.PlayerEntered();
             }
+            
+            m_Animator.SetBool(EatingHash, false);
 
             return;
         }
@@ -108,6 +118,11 @@ public class PlayerController : MonoBehaviour
                 if (cellData.ContainedObject.IsUnityNull() || cellData.ContainedObject.PlayerWantsToEnter())
                 {
                     MoveTo(newCellTarget);
+
+                    if (cellData.ContainedObject is FoodObject)
+                    {
+                        m_Animator.SetBool(EatingHash, true);
+                    }
                 }
             }
         }
