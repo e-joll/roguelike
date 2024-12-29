@@ -76,8 +76,6 @@ public class PlayerController : MonoBehaviour
                 if(cellData.ContainedObject != null)
                     cellData.ContainedObject.PlayerEntered();
             }
-            
-            m_Animator.SetBool(EatingHash, false);
 
             return;
         }
@@ -121,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
                     if (cellData.ContainedObject is FoodObject)
                     {
-                        m_Animator.SetBool(EatingHash, true);
+                        m_Animator.SetTrigger(EatingHash);
                     }
                 }
             }
